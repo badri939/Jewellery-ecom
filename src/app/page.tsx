@@ -12,11 +12,8 @@ type Product = {
 };
 
 export default async function HomePage() {
-  // Get base URL from headers (works in server components)
-  const headersList = await headers();
-  const host = headersList.get('host');
-  const protocol = headersList.get('x-forwarded-proto') || 'http';
-  const baseUrl = `${protocol}://${host}`;
+  // Use absolute URL for internal API route in server components
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   const res = await fetch(`${baseUrl}/api/products`, { cache: 'no-store' });
   if (!res.ok) throw new Error('Failed to fetch products');
   const products: Product[] = await res.json();
@@ -31,10 +28,10 @@ export default async function HomePage() {
           className="object-contain w-full h-full absolute inset-0 z-0 bg-black"
           priority
         />
-        <div className="relative z-10 flex flex-col items-center justify-center w-full h-full mt-32 md:mt-48">
-          <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg mb-4 text-center">Jewellery Collection</h1>
-          <p className="text-lg md:text-2xl text-white mb-8 text-center max-w-2xl">Discover timeless elegance and exquisite craftsmanship in every piece.</p>
-          <a href="#categories" className="animate-bounce mt-8 text-white text-3xl" aria-label="Scroll to categories">93</a>
+        <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center w-full px-4">
+          <h1 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg text-center mb-2">Jewellery Collection</h1>
+          <p className="text-base md:text-xl text-white text-center max-w-2xl mb-4 drop-shadow">Discover timeless elegance and exquisite craftsmanship in every piece.</p>
+          <a href="#categories" className="animate-bounce text-white text-3xl" aria-label="Scroll to categories">↓</a>
         </div>
       </section>
       <section id="categories" className="container mx-auto px-4 py-12">
