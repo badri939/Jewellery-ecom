@@ -23,18 +23,18 @@ export default async function HomePage() {
 
   return (
     <main className="relative w-full min-h-screen">
-      <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative w-full min-h-[60vh] h-[60vh] sm:h-[70vh] md:h-screen flex items-center justify-center overflow-hidden">
         <Image
           src="/images/hero.png"
           alt="Jewellery Hero"
           fill
-          className="object-cover w-full h-full absolute inset-0 z-0"
+          className="object-contain w-full h-full absolute inset-0 z-0 bg-black"
           priority
         />
-  <div className="relative z-10 flex flex-col items-center justify-center w-full h-full mt-32 md:mt-48">
+        <div className="relative z-10 flex flex-col items-center justify-center w-full h-full mt-32 md:mt-48">
           <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg mb-4 text-center">Jewellery Collection</h1>
           <p className="text-lg md:text-2xl text-white mb-8 text-center max-w-2xl">Discover timeless elegance and exquisite craftsmanship in every piece.</p>
-          <a href="#categories" className="animate-bounce mt-8 text-white text-3xl" aria-label="Scroll to categories">↓</a>
+          <a href="#categories" className="animate-bounce mt-8 text-white text-3xl" aria-label="Scroll to categories">93</a>
         </div>
       </section>
       <section id="categories" className="container mx-auto px-4 py-12">
