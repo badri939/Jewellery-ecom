@@ -15,8 +15,25 @@ export default function HomePage() {
   return (
     <main>
       {/* Hero: the banner image already carries the shop name, so it is shown whole. */}
-      <section className="bg-sand-100">
-        <a href="#collection" className="mx-auto block max-w-6xl" aria-label="Shop the collection">
+      {/* On wide screens a blurred copy of the banner fills the sides, so there are no blank strips. */}
+      <section className="relative overflow-hidden bg-sand-200">
+        <Image
+          src="/images/hero.png"
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="100vw"
+          className="scale-110 object-cover opacity-70 blur-2xl"
+        />
+        <a
+          href="#collection"
+          className="relative mx-auto block w-full max-w-[min(72rem,120vh)]"
+          aria-label="Shop the collection"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, black 8%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%)',
+          }}
+        >
           <Image
             src="/images/hero.png"
             alt={`${store.name} fashion jewellery`}
