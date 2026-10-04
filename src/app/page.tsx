@@ -1,74 +1,78 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import { store } from '@/config/store';
+import { products } from '@/data/products';
+import { whatsappLink, enquiryMessage } from '@/lib/whatsapp';
+import ProductCard from '@/components/ProductCard';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 
-import { headers } from 'next/headers';
+const steps = [
+  { title: 'Pick a piece', text: 'Browse the collection and open any piece for details.' },
+  { title: 'Order on WhatsApp', text: 'Tap "Order on WhatsApp". The piece and price are filled in for you.' },
+  { title: 'Pay and receive', text: 'Pay by UPI or cash on delivery. Local delivery or pickup.' },
+];
 
-type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-};
-
-export default async function HomePage() {
-  // Use absolute URL for internal API route in server components
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/products`, { cache: 'no-store' });
-  if (!res.ok) throw new Error('Failed to fetch products');
-  const products: Product[] = await res.json();
-
+export default function HomePage() {
   return (
-    <main className="relative w-full min-h-screen">
-      <section className="relative w-full min-h-[60vh] h-[60vh] sm:h-[70vh] md:h-screen flex items-center justify-center overflow-hidden">
-        <Image
-          src="/images/hero.png"
-          alt="Jewellery Hero"
-          fill
-          className="object-contain w-full h-full absolute inset-0 z-0 bg-black"
-          priority
-        />
-        <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center w-full px-4">
-          <h1 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg text-center mb-2">Jewellery Collection</h1>
-          <p className="text-base md:text-xl text-white text-center max-w-2xl mb-4 drop-shadow">Discover timeless elegance and exquisite craftsmanship in every piece.</p>
-          <a href="#categories" className="animate-bounce text-white text-3xl" aria-label="Scroll to categories">↓</a>
+    <main>
+      {/* Hero: the banner image already carries the shop name, so it is shown whole. */}
+      <section className="bg-sand-100">
+        <a href="#collection" className="mx-auto block max-w-6xl" aria-label="Shop the collection">
+          <Image
+            src="/images/hero.png"
+            alt={`${store.name} fashion jewellery`}
+            width={1536}
+            height={1024}
+            priority
+            sizes="(min-width: 1152px) 1152px, 100vw"
+            className="h-auto w-full"
+          />
+        </a>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 py-10 text-center">
+        <h1 className="font-serif text-3xl text-cocoa sm:text-4xl">{store.tagline}</h1>
+        <p className="mt-3 text-cocoa/75">
+          Necklace sets, earrings and rings for weddings, festivals and every day. Order directly on WhatsApp.
+        </p>
+        <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+          <a href="#collection" className="rounded-full bg-cocoa px-6 py-3 font-medium text-white hover:bg-cocoa/90">
+            View collection
+          </a>
+          <a
+            href={whatsappLink(enquiryMessage())}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-cocoa px-6 py-3 font-medium text-cocoa hover:bg-sand-100"
+          >
+            <WhatsAppIcon />
+            Ask on WhatsApp
+          </a>
         </div>
       </section>
-      <section id="categories" className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+      <section id="collection" className="mx-auto max-w-6xl scroll-mt-20 px-4 pb-16">
+        <h2 className="font-serif text-2xl text-cocoa sm:text-3xl">The collection</h2>
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
           {products.map((product) => (
-            <Link
-              key={product.id}
-              href={`/product/${product.id}`}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition block bg-white"
-            >
-              {(product.name === 'Gold Necklace' || product.name === 'Diamond Ring' || product.name === 'Pearl Earrings') ? (
-                <div className="flex items-center justify-center aspect-[3/2] w-full mb-4 bg-white">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={300}
-                    height={200}
-                    className="object-fill w-full h-full"
-                  />
-                </div>
-              ) : (
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={300}
-                  height={200}
-                  className="object-contain rounded mb-4 bg-white w-full h-48"
-                />
-              )}
-              <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-              <p className="text-gray-600 mb-2">{product.description}</p>
-              <p className="font-bold mb-2">₹{product.price}</p>
-            </Link>
+            <ProductCard key={product.id} product={product} />
           ))}
+        </div>
+      </section>
+
+      <section id="how-to-order" className="scroll-mt-20 bg-sand-100 py-14">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 className="font-serif text-2xl text-cocoa sm:text-3xl">How to order</h2>
+          <ol className="mt-6 grid gap-6 sm:grid-cols-3">
+            {steps.map((step, i) => (
+              <li key={step.title} className="rounded-xl bg-white p-6">
+                <span className="font-serif text-3xl text-gold">{i + 1}</span>
+                <h3 className="mt-2 font-medium text-cocoa">{step.title}</h3>
+                <p className="mt-1 text-sm text-cocoa/75">{step.text}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
     </main>
   );
 }
-

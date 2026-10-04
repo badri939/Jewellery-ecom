@@ -1,32 +1,32 @@
+# Gowri Aabharana
 
-# Jewellery E-Commerce Frontend
+Online catalogue for Gowri Aabharana fashion jewellery. Customers browse pieces and order on WhatsApp (UPI or cash on delivery).
 
-This is a Next.js (React) frontend for a jewellery e-commerce website. The site displays jewellery products, allows users to view product details, add items to a cart, and complete checkout.
+Built with Next.js 15 and Tailwind CSS 4. All pages are pre-rendered at build time.
 
-## Features
-- Product listing
-- Product detail view
-- Shopping cart
-- Checkout flow
+## Run locally
 
-## Tech Stack
-- [Next.js](https://nextjs.org/) (React, App Router)
-- TypeScript
-- Tailwind CSS
-- ESLint
+```bash
+npm install
+cp .env.example .env.local   # then fill in the WhatsApp number
+npm run dev                  # http://localhost:3000
+```
 
-## Getting Started
+## Where things live
 
-1. Install dependencies:
-	```sh
-	npm install
-	```
-2. Run the development server:
-	```sh
-	npm run dev
-	```
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+| What | File |
+| --- | --- |
+| Products (name, price, material, stock, photo) | `src/data/products.ts` |
+| Product photos | `public/images/` |
+| Shop name, tagline, city | `src/config/store.ts` |
+| WhatsApp number, site URL, Instagram | environment variables (see `.env.example`) |
 
----
+## Adding a product
 
-Replace placeholder product data and images with your actual catalogue for production use.
+1. Put the photo in `public/images/` (square photos look best).
+2. Add an entry to `src/data/products.ts`. The `id` becomes the page URL.
+3. Describe materials honestly, e.g. "gold-tone plated alloy", "faux pearl", "cubic zirconia".
+
+## Deploying on Vercel
+
+Import the GitHub repository in Vercel, then set `NEXT_PUBLIC_WHATSAPP_NUMBER` and `NEXT_PUBLIC_SITE_URL` under Project → Settings → Environment Variables and redeploy. These values are built into the pages, so a redeploy is needed after changing them.
