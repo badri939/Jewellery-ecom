@@ -1,6 +1,6 @@
-# Gowri Aabharana
+# Heramba Jewellery
 
-Online catalogue for Gowri Aabharana fashion jewellery. Customers browse pieces and order on WhatsApp (UPI or cash on delivery).
+Online catalogue for Heramba Jewellery, a fashion jewellery shop. Customers browse pieces and order on WhatsApp (UPI or cash on delivery).
 
 Built with Next.js 15 and Tailwind CSS 4. All pages are pre-rendered at build time.
 

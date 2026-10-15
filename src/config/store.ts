@@ -3,7 +3,7 @@
 // in Vercel (Project → Settings → Environment Variables) without a code change.
 
 export const store = {
-  name: 'Gowri Aabharana',
+  name: 'Heramba Jewellery',
   tagline: 'Handpicked fashion jewellery for every occasion',
   // Country code + number, digits only, e.g. 919876543210
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '',

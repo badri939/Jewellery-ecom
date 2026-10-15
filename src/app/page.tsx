@@ -12,38 +12,56 @@ const steps = [
 ];
 
 export default function HomePage() {
+  const [brandWord, ...rest] = store.name.split(' ');
+  const brandRest = rest.join(' ');
+
   return (
     <main>
-      {/* Hero: the banner image already carries the shop name, so it is shown whole. */}
-      {/* On wide screens a blurred copy of the banner fills the sides, so there are no blank strips. */}
+      {/* Hero: the photo carries no text; the shop name and button are real text so they
+          can be changed in src/config/store.ts. On wide screens a blurred copy of the photo
+          fills the sides, so there are no blank strips. */}
       <section className="relative overflow-hidden bg-sand-200">
         <Image
-          src="/images/hero.png"
+          src="/images/hero.jpg"
           alt=""
           aria-hidden="true"
           fill
           sizes="100vw"
           className="scale-110 object-cover opacity-70 blur-2xl"
         />
-        <a
-          href="#collection"
-          className="relative mx-auto block w-full max-w-[min(72rem,120vh)]"
-          aria-label="Shop the collection"
+        <div
+          className="relative mx-auto w-full max-w-[min(72rem,120vh)]"
           style={{
             maskImage: 'linear-gradient(to right, transparent, black 8%)',
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%)',
           }}
         >
           <Image
-            src="/images/hero.png"
-            alt={`${store.name} fashion jewellery`}
+            src="/images/hero.jpg"
+            alt={`Model wearing ${store.name} pieces`}
             width={1536}
             height={1024}
             priority
             sizes="(min-width: 1152px) 1152px, 100vw"
             className="h-auto w-full"
           />
-        </a>
+          <div className="absolute inset-y-0 right-0 flex w-[44%] flex-col items-center justify-center text-center text-cocoa">
+            <p className="font-serif text-3xl font-semibold uppercase leading-none tracking-wide sm:text-5xl lg:text-7xl">
+              {brandWord}
+            </p>
+            {brandRest && (
+              <p className="mt-1 text-[0.6rem] uppercase tracking-[0.35em] sm:mt-2 sm:text-sm lg:text-lg">
+                {brandRest}
+              </p>
+            )}
+            <a
+              href="#collection"
+              className="mt-3 border border-cocoa px-3 py-1 text-[0.6rem] font-medium uppercase tracking-[0.2em] hover:bg-cocoa hover:text-white sm:mt-6 sm:px-6 sm:py-2 sm:text-sm lg:mt-8 lg:text-base"
+            >
+              Shop now
+            </a>
+          </div>
+        </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-10 text-center">

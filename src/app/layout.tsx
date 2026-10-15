@@ -13,13 +13,13 @@ import WhatsAppFloat from '@/components/WhatsAppFloat';
 export const metadata: Metadata = {
   metadataBase: new URL(store.siteUrl),
   title: {
-    default: `${store.name} | Fashion Jewellery in ${store.city}`,
+    default: `${store.name} | Fashion jewellery in ${store.city}`,
     template: `%s | ${store.name}`,
   },
   description: `${store.tagline}. Necklace sets, earrings and rings. Order on WhatsApp with UPI or cash on delivery.`,
   openGraph: {
     siteName: store.name,
-    images: ['/images/hero.png'],
+    images: ['/images/hero.jpg'],
     locale: 'en_IN',
     type: 'website',
   },
