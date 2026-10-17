@@ -1,6 +1,7 @@
 // Store-wide settings. Change these values instead of editing page code.
 // The WhatsApp number is read from an environment variable so it can be set
-// in Vercel (Project → Settings → Environment Variables) without a code change.
+// in the hosting dashboard (environment variables) without a code change.
+// They are built into the pages, so redeploy after changing them.
 
 export const store = {
   name: 'Heramba Jewellery',

@@ -27,6 +27,15 @@ npm run dev                  # http://localhost:3000
 2. Add an entry to `src/data/products.ts`. The `id` becomes the page URL.
 3. Describe materials honestly, e.g. "gold-tone plated alloy", "faux pearl", "cubic zirconia".
 
-## Deploying on Vercel
+## Deploying
 
-Import the GitHub repository in Vercel, then set `NEXT_PUBLIC_WHATSAPP_NUMBER` and `NEXT_PUBLIC_SITE_URL` under Project → Settings → Environment Variables and redeploy. These values are built into the pages, so a redeploy is needed after changing them.
+The site is a static export: `npm run build` writes plain HTML to `out/`, which any static host can serve.
+
+**Cloudflare Pages** (free, commercial use allowed): connect the GitHub repository, choose the Next.js (Static HTML Export) preset or set build command `npm run build` and output directory `out`, then add these environment variables:
+
+- `NEXT_PUBLIC_WHATSAPP_NUMBER`: country code + number, digits only (e.g. 919876543210)
+- `NEXT_PUBLIC_SITE_URL`: the live address, e.g. `https://herambajewellery.in` (no trailing slash)
+
+**Netlify** and most other static hosts work the same way: build command `npm run build`, output folder `out`.
+
+These values are built into the pages, so redeploy after changing them.
