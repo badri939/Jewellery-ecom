@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jewellery-ecom",
+  "compatibility_date": "2026-10-12",
+  // Static site: upload the pre-built pages from `out/` (created by `npm run build`).
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}
