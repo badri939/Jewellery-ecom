@@ -2,32 +2,32 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { store } from '@/config/store';
-import { products, getProduct, formatPrice } from '@/data/products';
+import { formatPrice } from '@/data/products';
+import { getProducts, getProduct, getStore } from '@/lib/strapi';
 import { whatsappLink, orderMessage } from '@/lib/whatsapp';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 
 type Props = { params: Promise<{ id: string }> };
 
 // Pre-render every product page at build time.
-export function generateStaticParams() {
-  return products.map((p) => ({ id: p.id }));
+export async function generateStaticParams() {
+  return (await getProducts()).map((p) => ({ id: p.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const product = getProduct(id);
+  const product = await getProduct(id);
   if (!product) return {};
   return {
     title: product.name,
     description: `${product.description} ${product.material}. ${formatPrice(product.price)}.`,
-    openGraph: { images: [product.image] },
+    openGraph: { images: [product.images[0]] },
   };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { id } = await params;
-  const product = getProduct(id);
+  const [store, product] = await Promise.all([getStore(), getProduct(id)]);
   if (!product) notFound();
 
   const productUrl = `${store.siteUrl}/product/${product.id}`;
@@ -41,7 +41,7 @@ export default async function ProductPage({ params }: Props) {
       <div className="mt-4 grid gap-8 md:grid-cols-2">
         <div className="relative aspect-square overflow-hidden rounded-xl bg-sand-100">
           <Image
-            src={product.image}
+            src={product.images[0]}
             alt={product.name}
             fill
             priority
@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: Props) {
 
           {product.inStock ? (
             <a
-              href={whatsappLink(orderMessage(product, productUrl))}
+              href={whatsappLink(store, orderMessage(store, product, productUrl))}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-3 font-medium text-white hover:brightness-95 sm:w-auto sm:inline-flex"

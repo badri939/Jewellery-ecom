@@ -1,7 +1,8 @@
-import { store } from '@/config/store';
+import { getStore } from '@/lib/strapi';
 import { whatsappLink, enquiryMessage } from '@/lib/whatsapp';
 
-export default function Footer() {
+export default async function Footer() {
+  const store = await getStore();
   return (
     <footer className="border-t border-sand-200 bg-sand-100">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm text-cocoa/80 sm:grid-cols-3">
@@ -22,7 +23,7 @@ export default function Footer() {
           <p className="font-medium text-cocoa">Get in touch</p>
           <ul className="mt-2 space-y-1">
             <li>
-              <a href={whatsappLink(enquiryMessage())} target="_blank" rel="noopener noreferrer" className="underline hover:text-cocoa">
+              <a href={whatsappLink(store, enquiryMessage(store))} target="_blank" rel="noopener noreferrer" className="underline hover:text-cocoa">
                 WhatsApp us
               </a>
             </li>

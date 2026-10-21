@@ -1,11 +1,13 @@
+import { getStore } from '@/lib/strapi';
 import { whatsappLink, enquiryMessage } from '@/lib/whatsapp';
 import WhatsAppIcon from './WhatsAppIcon';
 
 // Floating chat button, always visible on phones where most visitors arrive.
-export default function WhatsAppFloat() {
+export default async function WhatsAppFloat() {
+  const store = await getStore();
   return (
     <a
-      href={whatsappLink(enquiryMessage())}
+      href={whatsappLink(store, enquiryMessage(store))}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"

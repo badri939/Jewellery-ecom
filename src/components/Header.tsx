@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { store } from '@/config/store';
+import { getStore } from '@/lib/strapi';
 import { whatsappLink, enquiryMessage } from '@/lib/whatsapp';
 import WhatsAppIcon from './WhatsAppIcon';
 
-export default function Header() {
+export default async function Header() {
+  const store = await getStore();
   return (
     <header className="sticky top-0 z-30 border-b border-sand-200 bg-cream/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -18,7 +19,7 @@ export default function Header() {
             How to order
           </Link>
           <a
-            href={whatsappLink(enquiryMessage())}
+            href={whatsappLink(store, enquiryMessage(store))}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-2 font-medium text-white hover:brightness-95"

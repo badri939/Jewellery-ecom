@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { store } from '@/config/store';
-import { products } from '@/data/products';
+import { getProducts, getStore } from '@/lib/strapi';
 import { whatsappLink, enquiryMessage } from '@/lib/whatsapp';
 import ProductCard from '@/components/ProductCard';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
@@ -11,18 +10,19 @@ const steps = [
   { title: 'Pay and receive', text: 'Pay by UPI or cash on delivery. Local delivery or pickup.' },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [store, products] = await Promise.all([getStore(), getProducts()]);
   const [brandWord, ...rest] = store.name.split(' ');
   const brandRest = rest.join(' ');
 
   return (
     <main>
       {/* Hero: the photo carries no text; the shop name and button are real text so they
-          can be changed in src/config/store.ts. On wide screens a blurred copy of the photo
+          can be changed in Strapi's Store settings. On wide screens a blurred copy of the photo
           fills the sides, so there are no blank strips. */}
       <section className="relative overflow-hidden bg-sand-200">
         <Image
-          src="/images/hero.jpg"
+          src={store.heroImage}
           alt=""
           aria-hidden="true"
           fill
@@ -37,7 +37,7 @@ export default function HomePage() {
           }}
         >
           <Image
-            src="/images/hero.jpg"
+            src={store.heroImage}
             alt={`Model wearing ${store.name} pieces`}
             width={1536}
             height={1024}
@@ -74,7 +74,7 @@ export default function HomePage() {
             View collection
           </a>
           <a
-            href={whatsappLink(enquiryMessage())}
+            href={whatsappLink(store, enquiryMessage(store))}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-cocoa px-6 py-3 font-medium text-cocoa hover:bg-sand-100"

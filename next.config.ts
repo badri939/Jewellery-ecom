@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   output: "export",
   // Static hosting has no image optimiser, so images are served as-is.
   images: { unoptimized: true },
+  // Products come from Strapi on Render's free plan, which can take a minute or more
+  // to wake up; give each page enough time for src/lib/strapi.ts to wait and retry.
+  staticPageGenerationTimeout: 600,
 };
 
 export default nextConfig;
