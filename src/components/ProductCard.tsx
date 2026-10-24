@@ -8,13 +8,14 @@ export default function ProductCard({ product }: { product: Product }) {
       href={`/product/${product.id}`}
       className="group block overflow-hidden rounded-xl border border-sand-200 bg-white transition hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gold"
     >
-      <div className="relative aspect-square bg-sand-100">
+      {/* 4:5 frame; object-contain so a photo is never cropped. */}
+      <div className="relative aspect-[4/5] bg-sand-100">
         <Image
           src={product.image}
           alt={product.name}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition duration-300 group-hover:scale-105"
+          className="object-contain"
         />
         {!product.inStock && (
           <span className="absolute left-3 top-3 rounded-full bg-cocoa px-3 py-1 text-xs text-white">Sold out</span>

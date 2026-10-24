@@ -18,9 +18,11 @@ const RETRIES = 3;
 const BACKOFF_MS = [5_000, 15_000, 30_000];
 const PAGE_SIZE = 100; // Strapi's default maximum page size
 
-const CARD_WIDTH = 600;
-const PAGE_WIDTH = 1200;
-const HERO_WIDTH = 1600;
+// Cloudinary transformations. Jewellery photos are never cropped: product images are
+// padded to the frame's aspect ratio, using the photo's own border colour.
+const CARD_IMAGE = 'w_600,c_pad,ar_4:5,b_auto:border,f_auto,q_auto';
+const PAGE_IMAGE = 'w_1200,c_pad,ar_3:4,b_auto:border,f_auto,q_auto';
+const HERO_IMAGE = 'w_1600,c_limit,f_auto,q_auto';
 
 type StrapiMedia = { url: string };
 
@@ -124,11 +126,11 @@ async function strapiGetAll<T>(path: string, params: Record<string, string>): Pr
   }
 }
 
-// Asks Cloudinary for a resized, compressed copy: `.../upload/<transform>/...`.
+// Asks Cloudinary for a transformed copy: `.../upload/<transform>/...`.
 // Other image URLs are returned unchanged.
-export function cloudinaryUrl(url: string, width: number): string {
+export function cloudinaryUrl(url: string, transform: string): string {
   if (!url.includes('res.cloudinary.com') || !url.includes('/upload/')) return url;
-  return url.replace('/upload/', `/upload/w_${width},c_limit,f_auto,q_auto/`);
+  return url.replace('/upload/', `/upload/${transform}/`);
 }
 
 function toProduct(p: StrapiProduct): Product | null {
@@ -145,8 +147,8 @@ function toProduct(p: StrapiProduct): Product | null {
     description: p.description ?? '',
     material: p.material ?? '',
     price: p.price,
-    image: cloudinaryUrl(images[0], CARD_WIDTH),
-    images: images.map((url) => cloudinaryUrl(url, PAGE_WIDTH)),
+    image: cloudinaryUrl(images[0], CARD_IMAGE),
+    images: images.map((url) => cloudinaryUrl(url, PAGE_IMAGE)),
     inStock: p.stock > 0,
   };
 }
@@ -206,7 +208,7 @@ async function fetchStore(): Promise<StoreSettings> {
     city: settings.city || localStore.city,
     whatsappNumber: settings.whatsappNumber || localStore.whatsappNumber,
     instagramUrl: settings.instagramUrl || localStore.instagramUrl,
-    heroImage: settings.heroImage?.url ? cloudinaryUrl(settings.heroImage.url, HERO_WIDTH) : localStore.heroImage,
+    heroImage: settings.heroImage?.url ? cloudinaryUrl(settings.heroImage.url, HERO_IMAGE) : localStore.heroImage,
     siteUrl: localStore.siteUrl,
   };
 }

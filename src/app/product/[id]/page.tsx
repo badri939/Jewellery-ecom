@@ -39,14 +39,15 @@ export default async function ProductPage({ params }: Props) {
       </Link>
 
       <div className="mt-4 grid gap-8 md:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-xl bg-sand-100">
+        {/* Portrait 3:4 frame; object-contain so the whole piece is always visible. */}
+        <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-sand-100">
           <Image
             src={product.images[0]}
             alt={product.name}
             fill
             priority
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
+            className="object-contain"
           />
         </div>
 
